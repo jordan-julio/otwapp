@@ -6,33 +6,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeScreen from './components/Home';
-
-function ProfileScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Profile Screen!</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
-  );
-}
-
-function OrderScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Order Screen!</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
-  );
-}
-
-function MapScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Map Screen!</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
-  );
-}
+import HistoryScreen from './components/History';
+import MapScreen from './components/Map';
+import ProfileScreen from './components/Profile';
 
 const Tab = createBottomTabNavigator();
 const CustomTabButton = props => (
@@ -92,7 +68,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Order"
-        component={OrderScreen}
+        component={HistoryScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({color, size}) => (
