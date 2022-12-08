@@ -1,57 +1,91 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {Button, Text, View} from 'react-native';
+import {TouchableOpacity, Button, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function HomeScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-      <Button
-        title="Go to Settings"
-        onPress={() => navigation.navigate('Settings')}
-      />
-    </View>
-  );
-}
-
-function SettingsScreen({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
-  );
-}
+import HomeScreen from './components/Home';
+import HistoryScreen from './components/History';
+import MapScreen from './components/Map';
+import ProfileScreen from './components/Profile';
 
 const Tab = createBottomTabNavigator();
+const CustomTabButton = props => (
+  <TouchableOpacity
+    {...props}
+    style={
+      props.accessibilityState.selected
+        ? [props.style, {borderTopColor: 'red', borderTopWidth: 2}]
+        : props.style
+    }
+  />
+);
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        barStyle: {
+          borderWidth: 0.5,
+          borderBottomWidth: 1,
+          backgroundColor: 'black',
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+          borderTopColor: '#000',
+          borderBottomColor: '#000',
+          borderLeftColor: '#000',
+          borderRightColor: '#000',
+        },
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: '',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
+          tabBarButton: CustomTabButton,
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Maps"
+        component={MapScreen}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: '',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons
-              name="settings-helper"
+              name="map-marker-radius"
               color={color}
               size={size}
             />
           ),
+          tabBarButton: CustomTabButton,
+        }}
+      />
+      <Tab.Screen
+        name="Order"
+        component={HistoryScreen}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="history" color={color} size={size} />
+          ),
+          tabBarButton: CustomTabButton,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+          tabBarButton: CustomTabButton,
         }}
       />
     </Tab.Navigator>
