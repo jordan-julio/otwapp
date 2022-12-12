@@ -8,10 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  SafeAreaView,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Header} from 'react-native/Header';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -23,40 +20,14 @@ const data = [
   // add more items here
 ];
 
+// Add carousels with tiles, and clickable tiles to respective pages
 function HomeScreen({navigation}) {
-  const [isDarkView, setIsDarkView] = useState(false);
-
-  // Define the styles for the dark and light views
-  const darkViewStyles = {
-    backgroundColor: 'black',
-    color: 'white',
-  };
-  const lightViewStyles = {
-    backgroundColor: 'white',
-    color: 'black',
-  };
-
-  const toggleButtonText = isDarkView
-    ? 'Switch to Light View'
-    : 'Switch to Dark View';
-
   return (
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         //style={isDarkView ? darkViewStyles : lightViewStyles}
       >
-        <SafeAreaView>
-          <View style={styles.head}>
-            <Text style={styles.headTitle}>OTW</Text>
-            <TouchableOpacity
-              style={styles.headButton}
-              onPress={() => navigation.navigate('Notifications')}>
-              <MaterialCommunityIcons name="bell" color={'#000'} size={25} />
-            </TouchableOpacity>
-          </View>
-          {/* Add other components here */}
-        </SafeAreaView>
         <Text style={styles.title}>Trending</Text>
         <View style={styles.container}>
           <FlatList
@@ -72,6 +43,7 @@ function HomeScreen({navigation}) {
                 onPress={() => navigation.navigate('ItemDetails', {item})}>
                 <View style={styles.item}>
                   <Image
+                    // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: '100%', height: '100%'}}
                     source={item.image}
                     resizeMode="contain"
@@ -93,6 +65,7 @@ function HomeScreen({navigation}) {
               <TouchableOpacity>
                 <View style={styles.item}>
                   <Image
+                    // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: '100%', height: '100%'}}
                     source={item.image}
                     resizeMode="contain"
@@ -114,6 +87,7 @@ function HomeScreen({navigation}) {
               <TouchableOpacity>
                 <View style={styles.item}>
                   <Image
+                    // eslint-disable-next-line react-native/no-inline-styles
                     style={{width: '100%', height: '100%'}}
                     source={item.image}
                     resizeMode="contain"
@@ -128,6 +102,7 @@ function HomeScreen({navigation}) {
   );
 }
 
+// styles
 const styles = StyleSheet.create({
   head: {
     flexDirection: 'row',
