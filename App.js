@@ -2,53 +2,40 @@
 import * as React from 'react';
 import {TouchableOpacity, Button, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Dimensions} from 'react-native';
 
 import HomeScreen from './components/Home';
 import HistoryScreen from './components/History';
 import MapScreen from './components/Map';
 import ProfileScreen from './components/Profile';
 
-const Tab = createBottomTabNavigator();
-const CustomTabButton = props => (
-  <TouchableOpacity
-    {...props}
-    style={
-      props.accessibilityState.selected
-        ? [props.style, {borderTopColor: 'red', borderTopWidth: 2}]
-        : props.style
-    }
-  />
-);
+const Tab = createMaterialBottomTabNavigator();
+const {width, height} = Dimensions.get('window');
+const iconSize = Math.min(width, height) / 16;
 
 function MyTabs() {
   return (
     <Tab.Navigator
-      screenOptions={{
-        barStyle: {
-          borderWidth: 0.5,
-          borderBottomWidth: 1,
-          backgroundColor: 'black',
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-          borderTopColor: '#000',
-          borderBottomColor: '#000',
-          borderLeftColor: '#000',
-          borderRightColor: '#000',
-        },
-      }}>
+      activeColor="#ffffff"
+      inactiveColor="#999999"
+      barStyle={{
+        backgroundColor: '#333333',
+      }}
+      shifting={true}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={focused ? '#000' : '#fff'}
+              size={iconSize}
+            />
           ),
-          tabBarButton: CustomTabButton,
         }}
       />
       <Tab.Screen
@@ -56,14 +43,13 @@ function MyTabs() {
         component={MapScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="map-marker-radius"
-              color={color}
-              size={size}
+              color={focused ? '#000' : '#fff'}
+              size={iconSize}
             />
           ),
-          tabBarButton: CustomTabButton,
         }}
       />
       <Tab.Screen
@@ -71,10 +57,13 @@ function MyTabs() {
         component={HistoryScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="history" color={color} size={size} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="history"
+              color={focused ? '#000' : '#fff'}
+              size={iconSize}
+            />
           ),
-          tabBarButton: CustomTabButton,
         }}
       />
       <Tab.Screen
@@ -82,10 +71,13 @@ function MyTabs() {
         component={ProfileScreen}
         options={{
           tabBarLabel: '',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="account"
+              color={focused ? '#000' : '#fff'}
+              size={iconSize}
+            />
           ),
-          tabBarButton: CustomTabButton,
         }}
       />
     </Tab.Navigator>
