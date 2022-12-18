@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet, Settings} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -12,6 +12,7 @@ import HistoryScreen from './components/History';
 import MapScreen from './components/Map';
 import ProfileScreen from './components/Profile';
 import ItemDetails from './components/ItemDetails';
+import SettingsScreen from './components/Settings';
 
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -111,6 +112,7 @@ function App() {
         />
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
         <Stack.Screen name="ItemDetails" component={ItemDetails} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
