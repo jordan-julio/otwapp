@@ -24,7 +24,7 @@ function HistoryScreen({navigation}) {
       renderItem={({item}) => (
         <View style={styles.itemContainer}> 
           <TouchableOpacity
-            onPress={() => navigation.navigate('ItemDetails', {item})} >
+            onPress={() => navigation.navigate('MapTrack', {item})} >
             <View style={styles.item}>
               <Image
                 // eslint-disable-next-line react-native/no-inline-styles
