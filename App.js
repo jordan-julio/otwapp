@@ -12,7 +12,9 @@ import HistoryScreen from './components/History';
 import MapScreen from './components/Map';
 import ProfileScreen from './components/Profile';
 import ItemDetails from './components/ItemDetails';
+import MapTrack from './components/MapTrack';
 import SettingsScreen from './components/Settings';
+
 
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -118,6 +120,7 @@ function App() {
             ),
           }}
         />
+        <Stack.Screen name="MapTrack" component={MapTrack} />
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
         <Stack.Screen name="ItemDetails" component={ItemDetails} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
