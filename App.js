@@ -49,13 +49,21 @@ function MyTabs({navigation}) {
           tabBarLabel: '',
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
-              name="map-marker-radius"
+              name="apple-safari"
               color={focused ? '#000' : '#fff'}
               size={iconSize}
             />
           ),
         }}
       />
+      {/** For this icon
+       * 1. script-text-outline
+       * 2. cart-outline
+       * 3. script-text-outline
+       * 4. basket-outline
+       * (Anything you want to choose from these to represent Orders
+       * , if you dont like the current icon)
+       */}
       <Tab.Screen
         name="Order"
         component={HistoryScreen}
@@ -63,7 +71,7 @@ function MyTabs({navigation}) {
           tabBarLabel: '',
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
-              name="history"
+              name="cube-send"
               color={focused ? '#000' : '#fff'}
               size={iconSize}
             />
