@@ -1,19 +1,19 @@
 import React from 'react';
-import {StyleSheet}  from 'react-native';
-import { process } from 'react-native-dotenv';
+import {StyleSheet} from 'react-native';
+//import {process} from 'react-native-dotenv';
 import MapView from 'react-native-maps';
 
 function MapTrack() {
   return (
     <MapView
-    style = {styles.map}
-    region={{
-      latitude: 51.2538,
-      longitude: -85.3233,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }}
-    apiKey={process.env.GOOGLE_MAPS_API_KEY}
+      style={styles.map}
+      region={{
+        latitude: 51.2538,
+        longitude: -85.3233,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+      //apiKey={process.env.GOOGLE_MAPS_API_KEY}
     />
   );
   // if (route.params != null) {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   map: {
     height: '100%',
-  }
+  },
 });
 
 export default MapTrack;

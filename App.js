@@ -15,7 +15,6 @@ import ItemDetails from './components/ItemDetails';
 import MapTrack from './components/MapTrack';
 import SettingsScreen from './components/Settings';
 
-
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
 const iconSize = Math.min(width, height) / 16;

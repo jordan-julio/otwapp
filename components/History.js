@@ -1,20 +1,89 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet, Text, FlatList, TouchableOpacity, Image, SafeAreaView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 
-const DATA =  [
-  {key: '1', brand: 'Nike', product: 'AF1', last_update: '11/26/22', status: 'In Transit', location: 'Toronto, ON, CA', progress: 0.6, image: require('./images/sampleNike.png')},
-  {key: '2', brand: 'LV', product: 'shirt', last_update: '11/30/22', status: 'Delivered', location: 'Toronto, ON, CA', progress: 1, image: require('./images/sampleLV.png')}, 
-  {key: '3', brand: 'Adidas', product: 'baseball hat', last_update: '11/30/22', status: 'In Transit', location: 'Toronto, ON, CA', progress: 0.7,  image: require('./images/sampleAdidas.png')},
-  {key: '4', brand: 'Jordan', product: 'Jordans', last_update: '12/12/22', status: 'In Transit', location: 'Ottawa, ON, CA', progress: 0.6, image: require('./images/sampleJordan.png')},
-  {key: '5', brand: 'LV', product: 'coat', last_update: '12/14/22', status: 'In Transit', location: 'Toronto, ON, CA', progress: 0.2,  image: require('./images/sampleLV.png')},
-  {key: '6', brand: 'Nike', product: 'buckethat', last_update: '12/16/22', status: 'In Transit', location: 'Ottawa, ON, CA', progress: 0.1, image: require('./images/sampleNike.png')},
-  {key: '7', brand: 'Adidas', product: 'Ultraboost 5.0', last_update: '12/10/22', status: 'In Transit', location: 'Toronto, ON, CA', progress: 0.5,  image: require('./images/sampleAdidas.png')},
+const DATA = [
+  {
+    key: '1',
+    brand: 'Nike',
+    product: 'AF1',
+    last_update: '11/26/22',
+    status: 'In Transit',
+    location: 'Toronto, ON, CA',
+    progress: 0.6,
+    image: require('./images/sampleNike.png'),
+  },
+  {
+    key: '2',
+    brand: 'LV',
+    product: 'shirt',
+    last_update: '11/30/22',
+    status: 'Delivered',
+    location: 'Toronto, ON, CA',
+    progress: 1,
+    image: require('./images/sampleLV.png'),
+  },
+  {
+    key: '3',
+    brand: 'Adidas',
+    product: 'baseball hat',
+    last_update: '11/30/22',
+    status: 'In Transit',
+    location: 'Toronto, ON, CA',
+    progress: 0.7,
+    image: require('./images/sampleAdidas.png'),
+  },
+  {
+    key: '4',
+    brand: 'Jordan',
+    product: 'Jordans',
+    last_update: '12/12/22',
+    status: 'In Transit',
+    location: 'Ottawa, ON, CA',
+    progress: 0.6,
+    image: require('./images/sampleJordan.png'),
+  },
+  {
+    key: '5',
+    brand: 'LV',
+    product: 'coat',
+    last_update: '12/14/22',
+    status: 'In Transit',
+    location: 'Toronto, ON, CA',
+    progress: 0.2,
+    image: require('./images/sampleLV.png'),
+  },
+  {
+    key: '6',
+    brand: 'Nike',
+    product: 'buckethat',
+    last_update: '12/16/22',
+    status: 'In Transit',
+    location: 'Ottawa, ON, CA',
+    progress: 0.1,
+    image: require('./images/sampleNike.png'),
+  },
+  {
+    key: '7',
+    brand: 'Adidas',
+    product: 'Ultraboost 5.0',
+    last_update: '12/10/22',
+    status: 'In Transit',
+    location: 'Toronto, ON, CA',
+    progress: 0.5,
+    image: require('./images/sampleAdidas.png'),
+  },
 ];
-
 
 function HistoryScreen({navigation}) {
   return (
-
     <FlatList
       contentContainerStyle={styles.listContainer}
       data={DATA}
@@ -22,12 +91,11 @@ function HistoryScreen({navigation}) {
       ListHeaderComponent={() => <Text style={styles.titleText}>Orders</Text>}
       // ListFooterComponent={() => <View style={styles.separator} />}
       renderItem={({item}) => (
-        <View style={styles.itemContainer}> 
+        <View style={styles.itemContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('MapTrack', {item})} >
+            onPress={() => navigation.navigate('MapTrack', {item})}>
             <View style={styles.item}>
               <Image
-                // eslint-disable-next-line react-native/no-inline-styles
                 style={{width: '100%', height: '100%'}}
                 source={item.image}
                 resizeMode="contain"
@@ -35,25 +103,38 @@ function HistoryScreen({navigation}) {
             </View>
           </TouchableOpacity>
           <View style={styles.textContainer}>
-            <Text style={styles.orderText}>{item.brand}, {item.product}</Text>
-            <Text style={styles.orderText}>{item.last_update}, {item.status}</Text>
+            <Text style={styles.orderText}>
+              {item.brand}, {item.product}
+            </Text>
+            <Text style={styles.orderText}>
+              {item.last_update}, {item.status}
+            </Text>
             <View style={styles.progressBar}>
-              <View style={{flex: item.progress, backgroundColor: "black", height: 3}}/>
-              <View style={{flex: 1-item.progress, backgroundColor: "black", height: 1}}/>
+              <View
+                style={{
+                  flex: item.progress,
+                  backgroundColor: 'black',
+                  height: 3,
+                }}
+              />
+              <View
+                style={{
+                  flex: 1 - item.progress,
+                  backgroundColor: 'black',
+                  height: 1,
+                }}
+              />
             </View>
             <Text style={styles.orderText}>{item.location}</Text>
           </View>
         </View>
       )}
     />
-
   );
 }
 
-
 const styles = StyleSheet.create({
   listContainer: {
-
     flexDirection: 'column',
   },
   itemContainer: {
@@ -63,7 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#4a4a4a',
     borderRadius: 15,
-    marginVertical:11,
+    marginVertical: 11,
     marginHorizontal: 7,
   },
   textContainer: {
@@ -72,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   progressBar: {
-    flexDirection: "row",
+    flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 3,
   },
@@ -83,7 +164,7 @@ const styles = StyleSheet.create({
   },
   orderText: {
     fontSize: 12,
-    marginVertical: 1
+    marginVertical: 1,
   },
   item: {
     width: 64,
