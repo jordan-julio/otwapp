@@ -34,7 +34,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             ListHeaderComponent={() => <View style={styles.separator} />}
             ListFooterComponent={() => <View style={styles.separator} />}
@@ -59,7 +59,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity>
@@ -81,7 +81,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity>

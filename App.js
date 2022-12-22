@@ -9,7 +9,7 @@ import {Dimensions} from 'react-native';
 
 import HomeScreen from './components/Home';
 import HistoryScreen from './components/History';
-import MapScreen from './components/Map';
+import DiscoverScreen from './components/Discover';
 import ProfileScreen from './components/Profile';
 import ItemDetails from './components/ItemDetails';
 import MapTrack from './components/MapTrack';
@@ -44,8 +44,8 @@ function MyTabs({navigation}) {
         }}
       />
       <Tab.Screen
-        name="Maps"
-        component={MapScreen}
+        name="Discover"
+        component={DiscoverScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({focused}) => (
