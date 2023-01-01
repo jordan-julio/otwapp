@@ -12,6 +12,7 @@ import HistoryScreen from './components/History';
 import MarketScreen from './components/Marketplace';
 import ProfileScreen from './components/Profile';
 import ItemDetails from './components/ItemDetails';
+import BrandPage from './components/BrandPage';
 import MapTrack from './components/MapTrack';
 import SettingsScreen from './components/Settings';
 
@@ -122,6 +123,7 @@ function App() {
         <Stack.Screen name="MapTrack" component={MapTrack} />
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
         <Stack.Screen name="ItemDetails" component={ItemDetails} />
+        <Stack.Screen name="BrandPage" component={BrandPage} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
