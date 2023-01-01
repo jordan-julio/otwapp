@@ -183,7 +183,7 @@ function MarketScreen({navigation}) {
       style={styles.searchText}
     />
   </View>
-  <TouchableOpacity onPress={() => navigation.navigate('MapTrack')}>
+  <TouchableOpacity onPress={() => navigation.navigate('Categories')}>
     <MaterialCommunityIcons
       name="menu"
       color={'#666'}
@@ -191,7 +191,7 @@ function MarketScreen({navigation}) {
       style={styles.topButton}
     />
   </TouchableOpacity>
-  <TouchableOpacity onPress={() => navigation.navigate('MapTrack')}>
+  <TouchableOpacity onPress={() => navigation.navigate('Categories')}>
     <MaterialCommunityIcons
       name="heart"
       color={'#666'}
