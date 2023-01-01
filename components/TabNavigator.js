@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import HomeScreen from './Home';
 import HistoryScreen from './History';
-import MapScreen from './Map';
+import MarketScreen from './Marketplace';
 import ProfileScreen from './Profile';
 
 const TabNavigator = createMaterialBottomTabNavigator(
@@ -21,10 +21,10 @@ const TabNavigator = createMaterialBottomTabNavigator(
         ),
       },
     },
-    Maps: {
-      screen: MapScreen,
+    Market: {
+      screen: MarketScreen,
       navigationOptions: {
-        tabBarLabel: 'Maps',
+        tabBarLabel: 'Discover',
         tabBarIcon: ({focused}) => (
           <MaterialCommunityIcons
             name="map-marker-radius"
