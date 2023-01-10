@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import zIndex from '@mui/material/styles/zIndex';
 import React, {useState} from 'react';
 import {
   View,
@@ -89,93 +90,105 @@ const DATA = [
 function HistoryScreen({navigation}) {
   const [formPosition] = useState(new Animated.Value(-100));
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [overlayOpacity] = useState(new Animated.Value(0));
+
 
   return (
+    <View>
+      <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)', opacity: overlayOpacity }}></Animated.View>
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={DATA}
         showsHorizontalScrollIndicator={false}
         ListHeaderComponent={() => 
-        <View style={styles.header}>
-          <Text style={styles.titleText}>Orders</Text>
-          <TouchableOpacity
-          style={styles.headButton}
-          onPress={() => {
-              setIsFormVisible(!isFormVisible)
-              Animated.timing(formPosition, {
-                  toValue: isFormVisible ? 100 : 0,
+          <View>
+            <View style={styles.header}>
+              <Text style={styles.titleText}>Orders</Text>
+              <TouchableOpacity
+              style={styles.headButton}
+              onPress={() => {
+                setIsFormVisible(!isFormVisible);
+                Animated.timing(formPosition, {
+                  toValue: isFormVisible ? -200 : 0,
                   duration: 500,
-                  useNativeDriver: true
-              }).start()
-          }}>
-            <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
-          </TouchableOpacity>
-          <Animated.View style={[styles.formContainer, { transform: [{translateY: formPosition}],
-            display: isFormVisible ? 'flex' : 'none'}]}>
-            <TextInput style={styles.input} placeholder="Brand" />
-            <TextInput style={styles.input} placeholder="Product" />
-            <TextInput style={styles.input} placeholder="Location" />
-            <TouchableOpacity style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>Submit</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
-    }
-      // ListFooterComponent={() => <View style={styles.separator} />}
-      renderItem={({item}) => (
-        <View style={styles.itemContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('MapTrack', {item})}>
-            <View style={styles.item}>
-              <Image
-                style={{width: '100%', height: '100%'}}
-                source={item.image}
-                resizeMode="contain"
-              />
+                  useNativeDriver: true,
+                }).start();
+                Animated.timing(overlayOpacity, {
+                  toValue: isFormVisible ? 0 : 1,
+                  duration: 500,
+                  useNativeDriver: true,
+                }).start();
+              }}>
+                <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-          <View style={styles.textContainer}>
-            <Text style={styles.orderText}>
-              {item.brand}, {item.product}
-            </Text>
-            <Text style={styles.orderText}>
-              {item.last_update}, {item.status}
-            </Text>
-            <View style={styles.progressBar}>
-              <View
-                style={{
-                  flex: item.progress,
-                  backgroundColor: 'black',
-                  height: 3,
-                }}
-              />
-              <View
-                style={{
-                  flex: 1 - item.progress,
-                  backgroundColor: 'black',
-                  height: 1,
-                  marginRight: 10,
-                }}
-              />
-            </View>
-            <Text style={styles.orderText}>{item.location}</Text>
           </View>
-        </View>
-      )}
-    />
+        }
+        // ListFooterComponent={() => <View style={styles.separator} />}
+        renderItem={({item}) => (
+          <View style={styles.itemContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MapTrack', {item})}>
+              <View style={styles.item}>
+                <Image
+                  style={{width: '100%', height: '100%'}}
+                  source={item.image}
+                  resizeMode="contain"
+                />
+              </View>
+            </TouchableOpacity>
+            <View style={styles.textContainer}>
+              <Text style={styles.orderText}>
+                {item.brand}, {item.product}
+              </Text>
+              <Text style={styles.orderText}>
+                {item.last_update}, {item.status}
+              </Text>
+              <View style={styles.progressBar}>
+                <View
+                  style={{
+                    flex: item.progress,
+                    backgroundColor: 'black',
+                    height: 3,
+                  }}
+                />
+                <View
+                  style={{
+                    flex: 1 - item.progress,
+                    backgroundColor: 'black',
+                    height: 1,
+                    marginRight: 10,
+                  }}
+                />
+              </View>
+              <Text style={styles.orderText}>{item.location}</Text>
+            </View>
+          </View>
+        )}
+      />
+      <Animated.View style={[styles.formContainer, { transform: [{translateY: formPosition}],
+        display: isFormVisible ? 'flex' : 'none'}]}>
+        <TextInput style={styles.input} placeholder="Brand" />
+        <TextInput style={styles.input} placeholder="Product" />
+        <TextInput style={styles.input} placeholder="Location" />
+        <TouchableOpacity style={styles.submitButton}>
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   formContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ddd',
     width: '80%',
     height: 200,
     borderRadius: 20,
     padding: 20,
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 0,
+    bottom: 200,
     transform: [{translateY: 100}],
   },
   headButton: {

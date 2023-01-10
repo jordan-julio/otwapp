@@ -207,6 +207,7 @@ function MarketScreen({navigation}) {
             data={data}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             ListHeaderComponent={() => topContainer}
             ListFooterComponent={() => <View style={styles.separator} />}
             renderItem={({item, index}) => (
