@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {TouchableOpacity, StyleSheet, Settings} from 'react-native';
+import {TouchableOpacity, StyleSheet, Settings, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -21,21 +21,25 @@ const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
 const iconSize = Math.min(width, height) / 16;
 
-function MyTabs({navigation}) {
+function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#ffffff"
-      inactiveColor="#999999"
       barStyle={{
-        backgroundColor: '#333333',
+        backgroundColor: '#333',
       }}
-      shifting={true}>
+      tabBarOptions={{
+        labelStyle: {
+          color: 'white',  // this will change the color of the label
+        }
+      }}
+      shifting={true}
+      >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: '',
+          tabBarLabel: "Home",
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="home"
@@ -49,7 +53,7 @@ function MyTabs({navigation}) {
         name="Discover"
         component={MarketScreen}
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Discover',
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="apple-safari"
@@ -71,7 +75,7 @@ function MyTabs({navigation}) {
         name="Order"
         component={HistoryScreen}
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Order',
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="cube-send"
@@ -85,7 +89,7 @@ function MyTabs({navigation}) {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="account"
@@ -110,23 +114,15 @@ function App() {
           name="MyTabs"
           component={MyTabs}
           options={{
-            title: 'OTW',
-            headerRight: () => (
-              <TouchableOpacity
-                style={styles.headButton}
-                // eslint-disable-next-line no-alert
-                onPress={() => alert('Go To Notifications Page!')}>
-                <MaterialCommunityIcons name="bell" color={'#000'} size={25} />
-              </TouchableOpacity>
-            ),
+            headerShown: false,
           }}
         />
-        <Stack.Screen name="MapTrack" component={MapTrack} />
+        <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
-        <Stack.Screen name="ItemDetails" component={ItemDetails} />
-        <Stack.Screen name="BrandPage" component={BrandPage} />
-        <Stack.Screen name="Categories" component={Categories} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>
+        <Stack.Screen name="BrandPage" component={BrandPage} options={{headerShown: false}}/>
+        <Stack.Screen name="Categories" component={Categories} options={{headerShown: false}}/>
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

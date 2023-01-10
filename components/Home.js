@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -20,10 +21,25 @@ const data = [
   // add more items here
 ];
 
+const Header = ({ title }) => {
+  return (
+    <View style={styles.header}>
+      <Text style={styles.headerTitle}>{title}</Text>
+      <TouchableOpacity
+        style={styles.headButton}
+        // eslint-disable-next-line no-alert
+        onPress={() => alert('Go To Notifications Page!')}>
+        <MaterialCommunityIcons name="bell" color={'#fff'} size={25} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 // Add carousels with tiles, and clickable tiles to respective pages
 function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
+      <Header title="OTW" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         //style={isDarkView ? darkViewStyles : lightViewStyles}
@@ -104,6 +120,22 @@ function HomeScreen({navigation}) {
 
 // styles
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#333',
+    height: 50,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    elevation: 3,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+    flexDirection: 'row',
+  },
+  headerTitle: {
+    margin: 10,
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   head: {
     flexDirection: 'row',
     justifyContent: 'space-between',
