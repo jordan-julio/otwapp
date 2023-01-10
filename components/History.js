@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const DATA = [
   {
@@ -88,7 +89,15 @@ function HistoryScreen({navigation}) {
       contentContainerStyle={styles.listContainer}
       data={DATA}
       showsHorizontalScrollIndicator={false}
-      ListHeaderComponent={() => <Text style={styles.titleText}>Orders</Text>}
+      ListHeaderComponent={() => <View style={styles.header}>
+      <Text style={styles.titleText}>Orders</Text>
+      <TouchableOpacity
+        style={styles.headButton}
+        // eslint-disable-next-line no-alert
+        onPress={() => alert('Go To Add Page!')}>
+        <MaterialCommunityIcons name="plus" color={'#000'} size={25} />
+      </TouchableOpacity>
+    </View>}
       // ListFooterComponent={() => <View style={styles.separator} />}
       renderItem={({item}) => (
         <View style={styles.itemContainer}>
@@ -134,6 +143,19 @@ function HistoryScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  headButton: {
+    margin: 20,
+  },
+  header: {
+    backgroundColor: '#ccc',
+    height: 70,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    elevation: 3,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+    flexDirection: 'row',
+  },
   listContainer: {
     flexDirection: 'column',
   },
@@ -161,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
     padding: 10,
+    color: '#222',
   },
   orderText: {
     fontSize: 12,
