@@ -10,8 +10,9 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function BrandPage({route}) {
+function BrandPage({route, navigation}) {
   if (route.params != null) {
     const {item} = route.params;
     const handlePress = () => {
@@ -48,6 +49,12 @@ function BrandPage({route}) {
     };
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{alignSelf: 'flex-start', margin: 15}}
+          // eslint-disable-next-line no-alert
+          onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="arrow-left" color={'#000'} size={30} />
+        </TouchableOpacity>
         <Image style={styles.brandLogo} source={item.brandImage} />
         <Text style={styles.brandTitle}>{item.brand}</Text>
         <Text style={styles.brandDescription}>{item.description}</Text>

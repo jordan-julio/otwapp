@@ -95,7 +95,7 @@ function HistoryScreen({navigation}) {
         style={styles.headButton}
         // eslint-disable-next-line no-alert
         onPress={() => alert('Go To Add Page!')}>
-        <MaterialCommunityIcons name="plus" color={'#000'} size={25} />
+        <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
       </TouchableOpacity>
     </View>}
       // ListFooterComponent={() => <View style={styles.separator} />}
@@ -131,6 +131,7 @@ function HistoryScreen({navigation}) {
                   flex: 1 - item.progress,
                   backgroundColor: 'black',
                   height: 1,
+                  marginRight: 10,
                 }}
               />
             </View>
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   header: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#333',
     height: 70,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
     padding: 10,
-    color: '#222',
+    color: '#ddd',
   },
   orderText: {
     fontSize: 12,
