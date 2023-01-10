@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,11 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Animated,
+  TextInput,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const DATA = [
   {
@@ -83,12 +87,40 @@ const DATA = [
 ];
 
 function HistoryScreen({navigation}) {
+  const [formPosition] = useState(new Animated.Value(-100));
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
   return (
-    <FlatList
-      contentContainerStyle={styles.listContainer}
-      data={DATA}
-      showsHorizontalScrollIndicator={false}
-      ListHeaderComponent={() => <Text style={styles.titleText}>Orders</Text>}
+      <FlatList
+        contentContainerStyle={styles.listContainer}
+        data={DATA}
+        showsHorizontalScrollIndicator={false}
+        ListHeaderComponent={() => 
+        <View style={styles.header}>
+          <Text style={styles.titleText}>Orders</Text>
+          <TouchableOpacity
+          style={styles.headButton}
+          onPress={() => {
+              setIsFormVisible(!isFormVisible)
+              Animated.timing(formPosition, {
+                  toValue: isFormVisible ? 100 : 0,
+                  duration: 500,
+                  useNativeDriver: true
+              }).start()
+          }}>
+            <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
+          </TouchableOpacity>
+          <Animated.View style={[styles.formContainer, { transform: [{translateY: formPosition}],
+            display: isFormVisible ? 'flex' : 'none'}]}>
+            <TextInput style={styles.input} placeholder="Brand" />
+            <TextInput style={styles.input} placeholder="Product" />
+            <TextInput style={styles.input} placeholder="Location" />
+            <TouchableOpacity style={styles.submitButton}>
+              <Text style={styles.submitButtonText}>Submit</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+    }
       // ListFooterComponent={() => <View style={styles.separator} />}
       renderItem={({item}) => (
         <View style={styles.itemContainer}>
@@ -122,6 +154,7 @@ function HistoryScreen({navigation}) {
                   flex: 1 - item.progress,
                   backgroundColor: 'black',
                   height: 1,
+                  marginRight: 10,
                 }}
               />
             </View>
@@ -134,6 +167,30 @@ function HistoryScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  formContainer: {
+    backgroundColor: '#fff',
+    width: '80%',
+    height: 200,
+    borderRadius: 20,
+    padding: 20,
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 0,
+    transform: [{translateY: 100}],
+  },
+  headButton: {
+    margin: 20,
+  },
+  header: {
+    backgroundColor: '#333',
+    height: 70,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    elevation: 3,
+    borderBottomEndRadius: 30,
+    borderBottomStartRadius: 30,
+    flexDirection: 'row',
+  },
   listContainer: {
     flexDirection: 'column',
   },
@@ -161,6 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
     padding: 10,
+    color: '#ddd',
   },
   orderText: {
     fontSize: 12,
