@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import zIndex from '@mui/material/styles/zIndex';
+import { borderRadius, fontFamily, margin } from '@mui/system';
 import React, {useState} from 'react';
 import {
   View,
@@ -10,6 +11,7 @@ import {
   Image,
   Animated,
   TextInput,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -91,105 +93,202 @@ function HistoryScreen({navigation}) {
   const [formPosition] = useState(new Animated.Value(-100));
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [overlayOpacity] = useState(new Animated.Value(0));
+  const [formData, setFormData] = useState({});
+
+  const handleSubmit = () => {
+    console.log(formData.orderNum);
+    fetch(`https://api.trackingmore.com/v2/trackings/get?tracking_number=${formData.orderNum}&carrier_code=dachser`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Trackingmore-Api-Key': 'r3vkvim3-fslc-yk6k-4t6j-4vyahipznokc'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        //do something with the data
+        for (let i = 0; i < data.data.items.length; i++) {
+          console.log(data.data.items[i]);
+          console.log(data.data.items[i]["origin_info"]);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+    setIsFormVisible(false);
+    setFormData({});
+    Animated.timing(formPosition, {
+        toValue: -200,
+        duration: 500,
+        useNativeDriver: true,
+    }).start();
+    Animated.timing(overlayOpacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+    }).start();
+  }
+
 
 
   return (
-    <View>
-      <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)', opacity: overlayOpacity }}></Animated.View>
-      <FlatList
-        contentContainerStyle={styles.listContainer}
-        data={DATA}
-        showsHorizontalScrollIndicator={false}
-        ListHeaderComponent={() => 
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.titleText}>Orders</Text>
+    <TouchableWithoutFeedback onPress={() => {
+      setIsFormVisible(false);
+      Animated.timing(formPosition, {
+          toValue: -200,
+          duration: 500,
+          useNativeDriver: true,
+      }).start();
+      Animated.timing(overlayOpacity, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+      }).start();
+    }}>
+      <View style={{flex: 1}}>
+        <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)', opacity: overlayOpacity }}></Animated.View>
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={DATA}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={() => 
+            <View>
+              <View style={styles.header}>
+                <Text style={styles.titleText}>Orders</Text>
+                <TouchableOpacity
+                style={styles.headButton}
+                onPress={() => {
+                  setIsFormVisible(!isFormVisible);
+                  Animated.timing(formPosition, {
+                    toValue: isFormVisible ? -200 : 0,
+                    duration: 500,
+                    useNativeDriver: true,
+                  }).start();
+                  Animated.timing(overlayOpacity, {
+                    toValue: isFormVisible ? 0 : 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                  }).start();
+                }}>
+                  <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          }
+          // ListFooterComponent={() => <View style={styles.separator} />}
+          renderItem={({item}) => (
+            <View style={styles.itemContainer}>
               <TouchableOpacity
-              style={styles.headButton}
-              onPress={() => {
-                setIsFormVisible(!isFormVisible);
-                Animated.timing(formPosition, {
-                  toValue: isFormVisible ? -200 : 0,
-                  duration: 500,
-                  useNativeDriver: true,
-                }).start();
-                Animated.timing(overlayOpacity, {
-                  toValue: isFormVisible ? 0 : 1,
-                  duration: 500,
-                  useNativeDriver: true,
-                }).start();
-              }}>
-                <MaterialCommunityIcons name="plus" color={'#fff'} size={25} />
+                onPress={() => navigation.navigate('MapTrack', {item})}>
+                <View style={styles.item}>
+                  <Image
+                    style={{width: '100%', height: '100%'}}
+                    source={item.image}
+                    resizeMode="contain"
+                  />
+                </View>
               </TouchableOpacity>
-            </View>
-          </View>
-        }
-        // ListFooterComponent={() => <View style={styles.separator} />}
-        renderItem={({item}) => (
-          <View style={styles.itemContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MapTrack', {item})}>
-              <View style={styles.item}>
-                <Image
-                  style={{width: '100%', height: '100%'}}
-                  source={item.image}
-                  resizeMode="contain"
-                />
+              <View style={styles.textContainer}>
+                <Text style={styles.orderText}>
+                  {item.brand}, {item.product}
+                </Text>
+                <Text style={styles.orderText}>
+                  {item.last_update}, {item.status}
+                </Text>
+                <View style={styles.progressBar}>
+                  <View
+                    style={{
+                      flex: item.progress,
+                      backgroundColor: 'black',
+                      height: 3,
+                    }}
+                  />
+                  <View
+                    style={{
+                      flex: 1 - item.progress,
+                      backgroundColor: 'black',
+                      height: 1,
+                      marginRight: 10,
+                    }}
+                  />
+                </View>
+                <Text style={styles.orderText}>{item.location}</Text>
               </View>
-            </TouchableOpacity>
-            <View style={styles.textContainer}>
-              <Text style={styles.orderText}>
-                {item.brand}, {item.product}
-              </Text>
-              <Text style={styles.orderText}>
-                {item.last_update}, {item.status}
-              </Text>
-              <View style={styles.progressBar}>
-                <View
-                  style={{
-                    flex: item.progress,
-                    backgroundColor: 'black',
-                    height: 3,
-                  }}
-                />
-                <View
-                  style={{
-                    flex: 1 - item.progress,
-                    backgroundColor: 'black',
-                    height: 1,
-                    marginRight: 10,
-                  }}
-                />
-              </View>
-              <Text style={styles.orderText}>{item.location}</Text>
             </View>
-          </View>
-        )}
-      />
-      <Animated.View style={[styles.formContainer, { transform: [{translateY: formPosition}],
-        display: isFormVisible ? 'flex' : 'none'}]}>
-        <TextInput style={styles.input} placeholder="Brand" />
-        <TextInput style={styles.input} placeholder="Product" />
-        <TextInput style={styles.input} placeholder="Location" />
-        <TouchableOpacity style={styles.submitButton}>
+          )}
+        />
+        <Animated.View style={[styles.formContainer, { transform: [{translateY: formPosition}],
+          display: isFormVisible ? 'flex' : 'none'}]}>
+        <Text style={styles.inputText}>Insert Package/Order Number</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Order Number"
+          value={formData.orderNum || ''}
+          onChangeText={text => setFormData({ ...formData, orderNum: text })}
+          onSubmitEditing={handleSubmit}
+          returnKeyType={'done'}
+          blurOnSubmit={true}
+        />
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
+  </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  submitButton: {
+    backgroundColor: '#ccc',
+    color: 'white',
+    borderRadius: 10,
+    padding: 12,
+    margin: 20,
+    fontSize: 18,
+    alignSelf: 'flex-end',
+    cursor: 'pointer',
+  },
+  submitButtonText: {
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  inputText: {
+    fontSize: 18,
+    marginBottom: 10,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#000',
+    alignItems:'center',
+    alignSelf: 'auto',
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: '80%',
+    marginBottom: 20,
+    fontSize:16,
+  },
   formContainer: {
-    backgroundColor: '#ddd',
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     width: '80%',
     height: 200,
     borderRadius: 20,
-    padding: 20,
+    shadowColor: 'rgba(0, 0, 0, 0.25)',
     position: 'absolute',
     alignSelf: 'center',
     bottom: 200,
     transform: [{translateY: 100}],
+    borderColor: 'black',
+    borderWidth: 2,
+    alignContent: 'center',
   },
   headButton: {
     margin: 20,
@@ -232,6 +331,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
     color: '#ddd',
+    marginLeft: 10,
   },
   orderText: {
     fontSize: 12,
