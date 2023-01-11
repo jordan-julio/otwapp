@@ -122,7 +122,7 @@ function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#333',
-    height: 50,
+    height: 70,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     elevation: 3,
@@ -131,10 +131,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerTitle: {
-    margin: 10,
-    color: '#ffffff',
-    fontSize: 20,
+    fontSize: 36,
     fontWeight: 'bold',
+    padding: 10,
+    color: '#ddd',
+    marginLeft: 10,
   },
   head: {
     flexDirection: 'row',
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headButton: {
-    margin: 10,
+    margin: 20,
   },
   separator: {
     height: 19,
