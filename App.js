@@ -28,18 +28,20 @@ function MyTabs() {
       barStyle={{
         backgroundColor: '#333',
       }}
-      tabBarOptions={{
-        labelStyle: {
-          color: 'white',  // this will change the color of the label
-        }
-      }}
       shifting={true}
       >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: <Text style={{ color: 'white'}}>Home</Text>,
+          labelStyle: {
+            fontSize: 12,
+            margin: 0,
+            padding: 0,
+            textAlign: 'center',
+            color: 'white'
+        },
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="home"
@@ -53,7 +55,7 @@ function MyTabs() {
         name="Discover"
         component={MarketScreen}
         options={{
-          tabBarLabel: 'Discover',
+          tabBarLabel: <Text style={{ color: 'white'}}>Discover</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="apple-safari"
@@ -75,7 +77,7 @@ function MyTabs() {
         name="Order"
         component={HistoryScreen}
         options={{
-          tabBarLabel: 'Order',
+          tabBarLabel: <Text style={{ color: 'white'}}>Order</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="cube-send"
@@ -89,7 +91,7 @@ function MyTabs() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: <Text style={{ color: 'white'}}>Profile</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="account"

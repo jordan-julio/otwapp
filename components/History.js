@@ -106,13 +106,13 @@ function HistoryScreen({navigation}) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-        //do something with the data
-        for (let i = 0; i < data.data.items.length; i++) {
-          console.log(data.data.items[i]);
-          console.log(data.data.items[i]["origin_info"]);
-        }
+      const filteredData = data.data.items.filter(item => item.tracking_number === formData.orderNum);
+      console.log(filteredData);
+      for (let i = 0; i < filteredData.length; i++) {
+        console.log(filteredData[i]["origin_info"]);
+      }
     })
+  
     .catch(error => console.error('Error:', error));
     setIsFormVisible(false);
     setFormData({});
