@@ -1,11 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {TouchableOpacity, StyleSheet, Settings, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useFocusEffect} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 import HomeScreen from './components/Home';
 import HistoryScreen from './components/History';
@@ -16,6 +20,8 @@ import BrandPage from './components/BrandPage';
 import Categories from './components/Categories';
 import MapTrack from './components/MapTrack';
 import SettingsScreen from './components/Settings';
+import Login from './components/login';
+import SignUp from './components/SignUp';
 
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -108,9 +114,51 @@ function MyTabs() {
 const Stack = createStackNavigator();
 
 function App() {
+  const [initialRouteName, setInitialRouteName] = useState('Login');
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+  console.log(user);
+  if (!user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={initialRouteName}>
+          {/* The MyTabs component with the bottom tab navigator goes here */}
+          <Stack.Screen
+            name="MyTabs"
+            component={MyTabs}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
+          {/* This is the new screen that is not accessible from the bottom tab navigator */}
+          <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>
+          <Stack.Screen name="BrandPage" component={BrandPage} options={{headerShown: false}}/>
+          <Stack.Screen name="Categories" component={Categories} options={{headerShown: false}}/>
+          <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={'MyTabs'}>
         {/* The MyTabs component with the bottom tab navigator goes here */}
         <Stack.Screen
           name="MyTabs"
@@ -119,6 +167,8 @@ function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
         <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
         <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>

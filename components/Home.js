@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {
   ScrollView,
   Dimensions,
@@ -37,6 +38,17 @@ const Header = ({ title }) => {
 
 // Add carousels with tiles, and clickable tiles to respective pages
 function HomeScreen({navigation}) {
+  const usersCollection = firestore().collection('Users');
+  firestore()
+  .collection('Users')
+  .get()
+  .then(querySnapshot => {
+    console.log('Total users: ', querySnapshot.size);
+
+    querySnapshot.forEach(documentSnapshot => {
+      console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+    });
+  });
   return (
     <View style={styles.container}>
       <Header title="OTW" />
@@ -50,7 +62,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             ListHeaderComponent={() => <View style={styles.separator} />}
             ListFooterComponent={() => <View style={styles.separator} />}
@@ -75,7 +87,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity>
@@ -97,7 +109,7 @@ function HomeScreen({navigation}) {
             style={styles.carouselContainer}
             data={data}
             horizontal={true}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item}) => (
               <TouchableOpacity>
@@ -151,7 +163,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#D9D9D9',
-    overflow: 'hidden',
+    flex: 1,
   },
   carouselContainer: {
     height: screenHeight / 4.5,

@@ -106,6 +106,7 @@ function HistoryScreen({navigation}) {
     })
     .then(res => res.json())
     .then(data => {
+      console.log(data);
       const filteredData = data.data.items.filter(item => item.tracking_number === formData.orderNum);
       console.log(filteredData);
       for (let i = 0; i < filteredData.length; i++) {
