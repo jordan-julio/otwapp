@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Image, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { Dimensions, ImageBackground, Image, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import nike from './images/sampleNike.png';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
+  
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,8 +43,11 @@ const Login = ({navigation}) => {
   };
   
   return (
-    <View style={styles.background}>
-        <View style={styles.container}>
+        <KeyboardAwareScrollView 
+        style={{ backgroundColor: '#effeff', flex: 1}}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        >
             <Image style={styles.productImage} source={require('./images/sampleNike.png')} />
             <Text style={{marginTop: 10}}>Email</Text>
             <TextInput
@@ -65,12 +72,17 @@ const Login = ({navigation}) => {
                   <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableOpacity>
             </View>
-        </View>
-    </View>
+        </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  img: {
+    height: screenHeight,
+    width: screenWidth,
+    alignItems: 'center',
+    flex: 1,
+  },
   input: {
       borderWidth: 1,
       borderColor: '#000',
@@ -84,13 +96,8 @@ const styles = StyleSheet.create({
       margin: 10,
       fontSize:16,
   },
-  background: {
-      alignContent: 'center',
-      flex: 1,
-      background: 'linear-gradient(to bottom, #4c4c4c, #1f1f1f)'
-  },
   container: {
-    padding: 10,
+    paddingBottom: 30,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -104,7 +111,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 2,
     alignContent: 'center',
-    backgroundColor: '#effeff',
+    backgroundColor: '#effeee',
     shadowColor: '#1f1f1f',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.8,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { Image, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { Navigation } from '@mui/icons-material';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -58,13 +58,13 @@ const SignUp = ({navigation}) => {
   };
 
   return (
-    <View style={{ flex:1}}>
         <KeyboardAwareScrollView
             style={{ backgroundColor: '#effeff', flex: 1}}
             resetScrollToCoords={{ x: 0, y: 0 }}
             contentContainerStyle={styles.container}
             scrollEnabled={false}
         >
+          <Image style={styles.productImage} source={require('./images/sampleNike.png')} />
             <Text>Email</Text>
             <TextInput
                 style={styles.input}
@@ -111,7 +111,6 @@ const SignUp = ({navigation}) => {
                 </TouchableOpacity>
             </View>
         </KeyboardAwareScrollView>
-        </View>
     )
 }
 
@@ -125,25 +124,36 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',
         paddingLeft: 20,
         paddingRight: 20,
-        width: '70%',
+        width: '80%',
         margin: 10,
         fontSize:16,
     },
     container: {
+      paddingBottom: 30,
+      display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      width: '90%',
+      height: '80%',
+      top: 75,
+      borderRadius: 20,
+      shadowColor: 'rgba(0, 0, 0, 0.25)',
+      position: 'absolute',
+      alignSelf: 'center',
       borderColor: 'black',
-      backgroundColor: '#effeff',
-      paddingTop: 200,
-      justifyContent: 'center',
+      borderWidth: 2,
+      alignContent: 'center',
+      backgroundColor: '#effeee',
     },
     productImage: {
-        width: '35%',
-        height: '35%',
+      width: 200,
+      height: 200,
+      alignItems: 'center',
+      resizeMode: 'contain'
     },
     text:{
       fontSize: 20,
-      color: '#fff',
+      color: '#000',
     },
     buttonContainer: {
       flexDirection: 'row',
