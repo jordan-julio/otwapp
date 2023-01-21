@@ -7,7 +7,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Dimensions} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-community/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -22,6 +22,7 @@ import MapTrack from './components/MapTrack';
 import SettingsScreen from './components/Settings';
 import Login from './components/login';
 import SignUp from './components/SignUp';
+import SplashScreen from './components/SplashScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -110,8 +111,34 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
-
 const Stack = createStackNavigator();
+
+const Auth = () => {
+  // Stack Navigator for Login and Sign up Screen
+  return (
+    <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen
+        name="LoginScreen"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={SignUp}
+        options={{
+          title: "Register", //Set Header Title
+          headerStyle: {
+            backgroundColor: "#307ecc", //Set Header color
+          },
+          headerTintColor: "#fff", //Set Header text color
+          headerTitleStyle: {
+            fontWeight: "bold", //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 function App() {
   const [initialRouteName, setInitialRouteName] = useState('Login');
@@ -132,33 +159,12 @@ function App() {
 
   if (initializing) return null;
   console.log(user);
-  if (!user) {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={initialRouteName}>
-          {/* The MyTabs component with the bottom tab navigator goes here */}
-          <Stack.Screen
-            name="MyTabs"
-            component={MyTabs}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-          <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
-          {/* This is the new screen that is not accessible from the bottom tab navigator */}
-          <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>
-          <Stack.Screen name="BrandPage" component={BrandPage} options={{headerShown: false}}/>
-          <Stack.Screen name="Categories" component={Categories} options={{headerShown: false}}/>
-          <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+  /**if (!user) {
+    
+  }**/
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={'MyTabs'}>
+      <Stack.Navigator initialRouteName={'SplashScreen'}>
         {/* The MyTabs component with the bottom tab navigator goes here */}
         <Stack.Screen
           name="MyTabs"
@@ -167,8 +173,17 @@ function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          // Hiding header for Splash Screen
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
         <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>

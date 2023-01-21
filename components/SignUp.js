@@ -1,183 +1,216 @@
-import React, { useState } from 'react';
-import { Image, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import { Navigation } from '@mui/icons-material';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+// #6 Email Authentication using Firebase Authentication in React Native App
+// https://aboutreact.com/react-native-firebase-authentication/
 
-/**import otpGenerator from 'otp-generator';
-import * as firebase from 'firebase';**/
+// Import React and Component
+import React, { useState, createRef } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  Image,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 
-const SignUp = ({navigation}) => {
-  const [Username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [otp, setOtp] = useState('');
-  const [generatedOtp, setGeneratedOtp] = useState('');
+import auth from "@react-native-firebase/auth";
 
-  const handleSignUp = async() => {
-    // validate the form inputs
-    if (!Username || !password || !confirmPassword || !phoneNumber) {
-      Alert.alert('Error', 'All fields are required');
-      return;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
+const SignUp = ({ navigation }) => {
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [errortext, setErrortext] = useState("");
+
+  const emailInputRef = createRef();
+  const passwordInputRef = createRef();
+
+  const handleSubmitButton = async () => {
+    setErrortext("");
+    if (!userName) return alert("Please fill Name");
+    if (!userEmail) return alert("Please fill Email");
+    if (!userPassword) return alert("Please fill Address");
 
     try {
-      // check if email already exists in the database
-      const emailExists = await firestore()
-        .collection('Users')
-        .where('Username', '==', Username)
-        .get();
-      if (!emailExists.empty) {
-        Alert.alert('Error', 'Email already exists');
-        return;
-      }
-
-      // insert the signup data in the firebase database
-      await firestore()
-        .collection('Users')
-        .doc().set({ Username, password, phoneNumber });
-      Alert.alert('Success', 'Your account has been created successfully');
-      navigation.navigate("Login");
+        // Create a new user
+        const { user } = await auth().createUserWithEmailAndPassword(userEmail, userPassword);
+        // Send a verification email
+        await user.sendEmailVerification();
+        // Update user profile
+        await user.updateProfile({
+            displayName: userName,
+            photoURL: "https://aboutreact.com/profile.png",
+        });
+        //navigate to MyTabs
+        navigation.replace("Auth")
+        console.log("Registration Successful. Please check your email to verify your account.")
     } catch (error) {
-      Alert.alert('Error', error.message);
+        console.log(error);
+        if (error.code === "auth/email-already-in-use") {
+            setErrortext("That email address is already in use!");
+        } else {
+            setErrortext(error.message);
+        }
     }
-  };
-
-  const handleSendCode = async() => {
-    // generate a new OTP
-    //const newOtp = otpGenerator.generate(6, { specialChars: false });
-    //setGeneratedOtp(newOtp);
-    // send an email with the OTP
-    // ...
-    //Alert.alert('Success', 'The OTP has been sent to your email');
   };
 
   return (
-        <KeyboardAwareScrollView
-            style={{ backgroundColor: '#effeff', flex: 1}}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.container}
-            scrollEnabled={false}
-        >
-          <Image style={styles.productImage} source={require('./images/sampleNike.png')} />
-            <Text>Email</Text>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#307ecc" }}
+    >
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require('./images/sampleAdidas.png')}
+            style={{
+              width: "50%",
+              height: 100,
+              resizeMode: "contain",
+              margin: 30,
+            }}
+          />
+        </View>
+        <KeyboardAvoidingView enabled>
+          <View style={styles.sectionStyle}>
             <TextInput
-                style={styles.input}
-                value={Username}
-                onChangeText={text => setUsername(text)}
-                placeholder="Enter your email"
+              style={styles.inputStyle}
+              onChangeText={(UserName) =>
+                setUserName(UserName)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="Enter Name"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                emailInputRef.current &&
+                emailInputRef.current.focus()
+              }
+              blurOnSubmit={false}
             />
-            <Text>Password</Text>
+          </View>
+          <View style={styles.sectionStyle}>
             <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={text => setPassword(text)}
-                secureTextEntry={true}
-                placeholder="Enter your password"
+              style={styles.inputStyle}
+              onChangeText={(UserEmail) =>
+                setUserEmail(UserEmail)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="Enter Email"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="email-address"
+              ref={emailInputRef}
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                passwordInputRef.current &&
+                passwordInputRef.current.focus()
+              }
+              blurOnSubmit={false}
             />
-            <Text>Confirm Password</Text>
+          </View>
+          <View style={styles.sectionStyle}>
             <TextInput
-                style={styles.input}
-                value={confirmPassword}
-                onChangeText={text => setConfirmPassword(text)}
-                secureTextEntry={true}
-                placeholder="Confirm your password"
+              style={styles.inputStyle}
+              onChangeText={(UserPassword) =>
+                setUserPassword(UserPassword)
+              }
+              underlineColorAndroid="#f000"
+              placeholder="Enter Password"
+              placeholderTextColor="#8b9cb5"
+              ref={passwordInputRef}
+              returnKeyType="next"
+              secureTextEntry={true}
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
             />
-            <Text>Phone Number</Text>
-            <TextInput
-                style={styles.input}
-                value={phoneNumber}
-                onChangeText={text => setPhoneNumber(text)}
-                placeholder="Enter your phone number"
-            />
-            {/**<Text>Confirmation Code</Text>
-             <TextInput
-                style={styles.input}
-                value={code}
-                onChangeText={text => setCode(text)}
-                placeholder="Enter the code sent to your email"
-        />**/}
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={handleSendCode} style={styles.sendCodeButton}>
-                <Text style={styles.buttonText}>Send Code</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleSignUp} style={styles.signUpButton}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAwareScrollView>
-    )
-}
+          </View>
+          {errortext != "" ? (
+            <Text style={styles.errorTextStyle}>
+              {" "}
+              {errortext}{" "}
+            </Text>
+          ) : null}
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={handleSubmitButton}
+          >
+            <Text style={styles.buttonTextStyle}>
+              REGISTER
+            </Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
+      {/**<Text
+        style={{
+          fontSize: 18,
+          textAlign: "center",
+          color: "white",
+        }}
+      >
+        React Native Firebase Authentication
+      </Text>
+      <Text
+        style={{
+          fontSize: 16,
+          textAlign: "center",
+          color: "white",
+        }}
+      >
+        www.aboutreact.com
+      </Text>**/}
+    </SafeAreaView>
+  );
+};
+export default SignUp;
 
 const styles = StyleSheet.create({
-    input: {
-        borderWidth: 1,
-        borderColor: '#000',
-        alignItems:'center',
-        alignSelf: 'auto',
-        borderRadius: 20,
-        backgroundColor: '#ccc',
-        paddingLeft: 20,
-        paddingRight: 20,
-        width: '80%',
-        margin: 10,
-        fontSize:16,
-    },
-    container: {
-      paddingBottom: 30,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      width: '90%',
-      height: '80%',
-      top: 75,
-      borderRadius: 20,
-      shadowColor: 'rgba(0, 0, 0, 0.25)',
-      position: 'absolute',
-      alignSelf: 'center',
-      borderColor: 'black',
-      borderWidth: 2,
-      alignContent: 'center',
-      backgroundColor: '#effeee',
-    },
-    productImage: {
-      width: 200,
-      height: 200,
-      alignItems: 'center',
-      resizeMode: 'contain'
-    },
-    text:{
-      fontSize: 20,
-      color: '#000',
-    },
-    buttonContainer: {
-      flexDirection: 'row',
-      alignSelf: 'center',
-      marginTop: 10,
-    },
-    sendCodeButton: {
-        backgroundColor: '#4c4c4c',
-        borderRadius: 10,
-        padding: 15,
-        marginRight: 10,
-        width: '40%',
-    },
-    signUpButton: {
-      backgroundColor: '#4c4c4c',
-      borderRadius: 10,
-      padding: 15,
-      width: '40%',
-    },
-    buttonText: {
-      color: '#fff',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-  })
-
-export default SignUp;
+  sectionStyle: {
+    flexDirection: "row",
+    height: 40,
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    margin: 10,
+  },
+  buttonStyle: {
+    backgroundColor: "#7DE24E",
+    borderWidth: 0,
+    color: "#FFFFFF",
+    borderColor: "#7DE24E",
+    height: 40,
+    alignItems: "center",
+    borderRadius: 30,
+    marginLeft: 35,
+    marginRight: 35,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  buttonTextStyle: {
+    color: "#FFFFFF",
+    paddingVertical: 10,
+    fontSize: 16,
+  },
+  inputStyle: {
+    flex: 1,
+    color: "white",
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#dadae8",
+  },
+  errorTextStyle: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 14,
+  },
+});
