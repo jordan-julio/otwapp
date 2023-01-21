@@ -50,7 +50,7 @@ const SplashScreen = ({ navigation }) => {
           style={styles.activityIndicator}
         />
       </View>
-      <Text
+      {/**<Text
         style={{
           fontSize: 18,
           textAlign: "center",
@@ -67,7 +67,7 @@ const SplashScreen = ({ navigation }) => {
         }}
       >
         www.aboutreact.com
-      </Text>
+      </Text>**/}
     </SafeAreaView>
   );
 };
