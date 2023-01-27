@@ -7,6 +7,7 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CATEGORIES = [
   'Best Sellers',
@@ -22,9 +23,15 @@ const CATEGORIES = [
   'Automotive & Industrial',
 ];
 
-const Categories = () => {
+const Categories = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity
+          style={{alignSelf: 'flex-start', margin: 15}}
+          // eslint-disable-next-line no-alert
+          onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name="arrow-left" color={'#000'} size={30} />
+        </TouchableOpacity>
       <Text style={styles.browse}>Browse</Text>
       <View>
         {CATEGORIES.map(category => (

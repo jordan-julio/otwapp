@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ScrollView} from 'react-native';
 import HomeScreen from './Home';
 import HistoryScreen from './History';
+import auth from "@react-native-firebase/auth";
 
 function ProfileScreen({navigation}) {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    if (!initializing && !user) {
+      navigation.navigate('Auth');
+    }
+  }, [initializing, user]);
   // views:
   // 1. profile
   // 2. Buttons
@@ -49,7 +69,7 @@ function ProfileScreen({navigation}) {
             <Text style={styles.menuItemText}>Contact Us</Text>
           </TouchableOpacity>
           <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
+          <TouchableOpacity onPress={() => auth().signOut()} style={styles.buttonStyle}>
             <Text style={styles.menuItemText}>Log Out</Text>
           </TouchableOpacity>
           <View style={styles.separator} />

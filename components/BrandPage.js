@@ -58,9 +58,11 @@ function BrandPage({route, navigation}) {
         <Image style={styles.brandLogo} source={item.brandImage} />
         <Text style={styles.brandTitle}>{item.brand}</Text>
         <Text style={styles.brandDescription}>{item.description}</Text>
-        <Button onPress={handlePress} title="🌐 Website " />
+        <TouchableOpacity
+                style={styles.headButton}
+                onPress={() => {handlePress}}><Text style={{color: '#000'}}>🌐 Website</Text></TouchableOpacity>
         <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={sortByPrice}  style={styles.button}>
+            <TouchableOpacity onPress={sortByPrice} style={styles.button}>
                 <Text style={styles.buttonText}>Price</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
@@ -79,8 +81,8 @@ function BrandPage({route, navigation}) {
           renderItem={({item}) => (
             <View style={styles.productContainer}>
               <Image style={styles.productImage} source={item.image} />
-              <Text>{item.name}</Text>
-              <Text>{item.price}</Text>
+              <Text style={{color: '#000'}}>{item.name}</Text>
+              <Text style={{color: '#000'}}>{item.price}</Text>
             </View>
           )}
         />
@@ -99,10 +101,12 @@ const styles = StyleSheet.create({
   brandTitle: {
     fontSize: 40,
     textAlign: 'center',
+    color: '#222',
   },
   brandDescription: {
     fontSize: 20,
     textAlign: 'center',
+    color: '#222',
   },
   brandLogo: {
     width: 100,
@@ -146,7 +150,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-
+  headButton: {
+    backgroundColor: '#ccc',
+    color: 'white',
+    borderRadius: 10,
+    padding: 12,
+    margin: 20,
+    fontSize: 18,
+    alignSelf: 'center',
+    cursor: 'pointer',
+  },
 
 });
 

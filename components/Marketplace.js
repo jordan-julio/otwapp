@@ -179,7 +179,7 @@ function MarketScreen({navigation}) {
       value={searchText}
       onChangeText={handleSearch}
       placeholder="🔍 Search"
-      placeholderTextColor="#000"
+      placeholderTextColor="#ddd"
       style={styles.searchText}
     />
   </View>
@@ -205,7 +205,7 @@ function MarketScreen({navigation}) {
         <View style={styles.listItems}>
           <FlatList
             data={data}
-            pagingEnabled={true}
+            pagingEnabled={false}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={() => topContainer}
@@ -287,20 +287,23 @@ const styles = StyleSheet.create({
   brand: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: 'black',
   },
   searchBar: {
     backgroundColor: '#666666',
     borderRadius: 15,
     flex: 1,
-    height: 40,
+    height: 45,
     textAlign: 'center',
     marginRight: 20,
   },
   searchText: {
-    fontSize: 16,
+    margin: 3,
+    fontSize: 17,
     color: '#000',
     paddingTop: 9,
     paddingLeft: 5,
+    borderRadius: 10,
   },
 });
 
