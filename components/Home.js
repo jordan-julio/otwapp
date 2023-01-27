@@ -43,10 +43,10 @@ function HomeScreen({navigation}) {
   .collection('Users')
   .get()
   .then(querySnapshot => {
-    console.log('Total users: ', querySnapshot.size);
+    //console.log('Total users: ', querySnapshot.size);
 
     querySnapshot.forEach(documentSnapshot => {
-      console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+      //console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
     });
   });
   return (

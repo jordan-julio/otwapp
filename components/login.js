@@ -38,8 +38,8 @@ const Login = ({ navigation }) => {
     auth()
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then((user) => {
-        console.log(user);
-        console.log(user.user.emailVerified);
+        //console.log(user);
+        //console.log(user.user.emailVerified);
         // If server response message same as Data Matched
         if (user && user.user.emailVerified) {
           navigation.replace("MyTabs");

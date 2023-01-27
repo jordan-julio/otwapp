@@ -158,7 +158,7 @@ function App() {
   }, []);
 
   if (initializing) return null;
-  console.log(user);
+  //console.log(user);
   /**if (!user) {
     
   }**/

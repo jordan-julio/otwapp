@@ -45,7 +45,7 @@ const SignUp = ({ navigation }) => {
         });
         //navigate to MyTabs
         navigation.replace("Auth")
-        console.log("Registration Successful. Please check your email to verify your account.")
+        alert("Registration Successful. Please check your email to verify your account.")
     } catch (error) {
         console.log(error);
         if (error.code === "auth/email-already-in-use") {
