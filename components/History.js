@@ -26,6 +26,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 0.6,
     image: require('./images/sampleNike.png'),
+    latitude: 37.78825, longitude: -122.4324
   },
   {
     key: '2',
@@ -36,6 +37,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 1,
     image: require('./images/sampleLV.png'),
+    latitude: 57, longitude: 2
   },
   {
     key: '3',
@@ -46,6 +48,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 0.7,
     image: require('./images/sampleAdidas.png'),
+    latitude: 34, longitude: 138
   },
   {
     key: '4',
@@ -56,6 +59,7 @@ const DATA = [
     location: 'Ottawa, ON, CA',
     progress: 0.6,
     image: require('./images/sampleJordan.png'),
+    latitude: 47, longitude: 8
   },
   {
     key: '5',
@@ -66,6 +70,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 0.2,
     image: require('./images/sampleLV.png'),
+    latitude: 41, longitude: 12
   },
   {
     key: '6',
@@ -76,6 +81,7 @@ const DATA = [
     location: 'Ottawa, ON, CA',
     progress: 0.1,
     image: require('./images/sampleNike.png'),
+    latitude: 34, longitude: 151
   },
   {
     key: '7',
@@ -86,6 +92,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 0.5,
     image: require('./images/sampleAdidas.png'),
+    latitude: 90.78825, longitude: 122.4324
   },
 ];
 
@@ -96,12 +103,23 @@ function HistoryScreen({navigation}) {
   const [formData, setFormData] = useState({});
 
   const handleSubmit = () => {
-    console.log(formData.orderNum);
-    fetch(`https://api.trackingmore.com/v2/trackings/get?tracking_number=${formData.orderNum}&carrier_code=dachser`, {
+    //console.log(formData.orderNum);
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Tracking-Api-Key': 'httpw3s0-mw3x-2295-24sj-3at7gkx22eh3 '},
+      body: '{"tracking_number":"9261290312833844954982"}'
+    };
+    
+    fetch('https://api.trackingmore.com/v4/couriers/detect', options)
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => console.error(err));
+  
+    fetch(`https://api.trackingmore.com/v4/trackings/get?tracking_number=${formData.orderNum}&carrier_code=dachser`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Trackingmore-Api-Key': 'r3vkvim3-fslc-yk6k-4t6j-4vyahipznokc'
+            'Trackingmore-Api-Key': 'tvb39aav-uk2u-xsqj-0ps7-z8s48r5q830b'
         }
     })
     .then(res => res.json())
@@ -179,7 +197,7 @@ function HistoryScreen({navigation}) {
           // ListFooterComponent={() => <View style={styles.separator} />}
           renderItem={({item}) => (
             <View style={styles.itemContainer}>
-              <TouchableOpacity
+              <TouchableOpacity 
                 onPress={() => navigation.navigate('MapTrack', {item})}>
                 <View style={styles.item}>
                   <Image
