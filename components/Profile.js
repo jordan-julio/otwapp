@@ -5,6 +5,7 @@ import {ScrollView} from 'react-native';
 import HomeScreen from './Home';
 import HistoryScreen from './History';
 import auth from "@react-native-firebase/auth";
+import { borderRadius } from '@mui/system';
 
 function ProfileScreen({navigation}) {
   const [initializing, setInitializing] = useState(true);
@@ -31,115 +32,90 @@ function ProfileScreen({navigation}) {
   // 2. Buttons
   // 3. buttons go to other screens
   return (
-    <View style={{flex: 1, alignItems: 'stretch', backgroundColor: '#ccc'}}>
-      {/** Profile, and basic information */}
+    <View style={styles.outerContainer}>
       <View style={styles.container}>
-        <View style={styles.profileInfo}>
+        <View style={styles.profileImage}>
           <Image
             source={{
               uri: 'https://pe-images.s3.amazonaws.com/basics/cc/image-size-resolution/resize-images-for-print/image-cropped-8x10.jpg',
             }}
-            style={styles.profilePicture}
+            style={styles.avatar}
           />
-          <View style={styles.profileText}>
-            <Text style={styles.name}>Your Name</Text>
-            <Text style={styles.username}>@username</Text>
-          </View>
+          <Text style={styles.name}>Your Name</Text>
+          <Text style={styles.bio}>Your Bio</Text>
         </View>
-      </View>
-      {/** Scrollable view that contains buttons to go to other views */}
-      <View style={{flex: 1}}>
-        <ScrollView horizontal={false}>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Settings')}
-            style={styles.buttonStyle}>
+        <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuItem}>
+            <Text style={styles.menuItemText}>Edit Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
             <Text style={styles.menuItemText}>Settings</Text>
           </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>Statistics</Text>
+          <TouchableOpacity style={styles.menuItemLast} onPress={() => auth().signOut()}>
+            <Text style={styles.menuItemText}>Logout</Text>
           </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>About</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>Contact Us</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity onPress={() => auth().signOut()} style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>Log Out</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>...Anything Else</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>...Anything Else</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity style={styles.buttonStyle}>
-            <Text style={styles.menuItemText}>...Anything Else</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-        </ScrollView>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  menuItem: {
-    padding: 10,
-    marginVertical: 1,
-    backgroundColor: '#ccc',
+  outerContainer: {
     flex: 1,
-  },
-  menuItemText: {
-    fontSize: 40,
+    backgroundColor: '#000',
   },
   container: {
-    marginBottom: 30,
-    alignItems: 'center',
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'flex-end',
+    marginTop: 150, 
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    backgroundColor: '#111',
   },
-  profileInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profilePicture: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginRight: 20,
-    marginTop: 10,
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    margin: 20,
+    marginBottom: 100,
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
+    margin: 10,
+    color: '#eee',
   },
-  username: {
+  bio: {
     fontSize: 16,
-    color: 'grey',
+    color: '#eee',
+    textAlign: 'center',
+    margin: 10,
   },
-  separator: {
-    height: 1,
-    backgroundColor: '#5A5A5A',
-    borderRadius: 10,
-    shadowColor: '#265B5F',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+  menuContainer: {
+    backgroundColor: '#222',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: 20,
   },
-  buttonStyle: {
-    backgroundColor: '#aaa',
-    height: 70,
+  menuItem: {
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+    width: '100%',
   },
+  menuItemLast: {
+    width: '100%',
+  },
+  menuItemText: {
+    fontSize: 18,
+    margin: 20,
+    marginLeft: 30,
+    color: '#ddd',
+  },
+  profileImage: {
+    alignItems: 'center',
+  }
 });
 
 export default ProfileScreen;
