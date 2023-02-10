@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 //import {process} from 'react-native-dotenv';
 import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function MapTrack({route, navigation}) {
@@ -25,13 +25,8 @@ function MapTrack({route, navigation}) {
       <View style={styles.topLeftContainer}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <MaterialCommunityIcons
-            name="arrow-left"
-            color="#000"
-            size={30}
-          />
+          style={styles.backButton}>
+          <MaterialCommunityIcons name="arrow-left" color="#000" size={30} />
         </TouchableOpacity>
       </View>
       <MapView
@@ -39,12 +34,15 @@ function MapTrack({route, navigation}) {
         initialRegion={{
           latitude: item.latitude,
           longitude: item.longitude,
-          latitudeDelta: 0.0800,
-          longitudeDelta: 0.0400,
+          latitudeDelta: 0.08,
+          longitudeDelta: 0.04,
         }}
-        apiKey={'AIzaSyC1P2nXQ02Uglj2EwP0l92FNTfqMXbR4Rg'}
-      >
-        <Marker coordinate={{ latitude : lat , longitude : long }} title={item.product} description={item.status}/>
+        apiKey={process.env.API_KEY}>
+        <Marker
+          coordinate={{latitude: lat, longitude: long}}
+          title={item.product}
+          description={item.status}
+        />
       </MapView>
     </View>
   );

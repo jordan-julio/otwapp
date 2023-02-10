@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useState, useEffect} from 'react';
@@ -10,6 +11,7 @@ import {Dimensions} from 'react-native';
 //import AsyncStorage from '@react-native-community/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import firebase from '@react-native-firebase/app';
 
 import HomeScreen from './components/Home';
 import HistoryScreen from './components/History';
@@ -23,6 +25,7 @@ import SettingsScreen from './components/Settings';
 import Login from './components/login';
 import SignUp from './components/SignUp';
 import SplashScreen from './components/SplashScreen';
+//import EditProfile from './components/EditProfile';
 
 const Tab = createMaterialBottomTabNavigator();
 const {width, height} = Dimensions.get('window');
@@ -35,20 +38,19 @@ function MyTabs() {
       barStyle={{
         backgroundColor: '#333',
       }}
-      shifting={true}
-      >
+      shifting={true}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: <Text style={{ color: 'white'}}>Home</Text>,
+          tabBarLabel: <Text style={{color: 'white'}}>Home</Text>,
           labelStyle: {
             fontSize: 12,
             margin: 0,
             padding: 0,
             textAlign: 'center',
-            color: 'white'
-        },
+            color: 'white',
+          },
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="home"
@@ -62,7 +64,7 @@ function MyTabs() {
         name="Discover"
         component={MarketScreen}
         options={{
-          tabBarLabel: <Text style={{ color: 'white'}}>Discover</Text>,
+          tabBarLabel: <Text style={{color: 'white'}}>Discover</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="apple-safari"
@@ -84,7 +86,7 @@ function MyTabs() {
         name="Order"
         component={HistoryScreen}
         options={{
-          tabBarLabel: <Text style={{ color: 'white'}}>Order</Text>,
+          tabBarLabel: <Text style={{color: 'white'}}>Order</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="cube-send"
@@ -98,7 +100,7 @@ function MyTabs() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: <Text style={{ color: 'white'}}>Profile</Text>,
+          tabBarLabel: <Text style={{color: 'white'}}>Profile</Text>,
           tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
               name="account"
@@ -120,19 +122,19 @@ const Auth = () => {
       <Stack.Screen
         name="LoginScreen"
         component={Login}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="RegisterScreen"
         component={SignUp}
         options={{
-          title: "Register", //Set Header Title
+          title: 'Register', //Set Header Title
           headerStyle: {
-            backgroundColor: "#307ecc", //Set Header color
+            backgroundColor: '#307ecc', //Set Header color
           },
-          headerTintColor: "#fff", //Set Header text color
+          headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
-            fontWeight: "bold", //Set Header text style
+            fontWeight: 'bold', //Set Header text style
           },
         }}
       />
@@ -149,7 +151,9 @@ function App() {
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   }
 
   useEffect(() => {
@@ -157,10 +161,12 @@ function App() {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   //console.log(user);
   /**if (!user) {
-    
+
   }**/
   return (
     <NavigationContainer>
@@ -177,19 +183,39 @@ function App() {
           name="SplashScreen"
           component={SplashScreen}
           // Hiding header for Splash Screen
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Auth"
           component={Auth}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
-        <Stack.Screen name="MapTrack" component={MapTrack} options={{headerShown: false}}/>
+        <Stack.Screen
+          name="MapTrack"
+          component={MapTrack}
+          options={{headerShown: false}}
+        />
         {/* This is the new screen that is not accessible from the bottom tab navigator */}
-        <Stack.Screen name="ItemDetails" component={ItemDetails} options={{headerShown: false}}/>
-        <Stack.Screen name="BrandPage" component={BrandPage} options={{headerShown: false}}/>
-        <Stack.Screen name="Categories" component={Categories} options={{headerShown: false}}/>
-        <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
+        <Stack.Screen
+          name="ItemDetails"
+          component={ItemDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BrandPage"
+          component={BrandPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Categories"
+          component={Categories}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

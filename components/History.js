@@ -48,7 +48,7 @@ const DATA = [
     location: 'Toronto, ON, CA',
     progress: 0.7,
     image: require('./images/sampleAdidas.png'),
-    latitude: 34, longitude: 138
+    latitude: 36.2048, longitude: 138.2529
   },
   {
     key: '4',

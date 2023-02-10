@@ -1,20 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ImageBackground,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {ScrollView} from 'react-native';
 import HomeScreen from './Home';
 import HistoryScreen from './History';
-import auth from "@react-native-firebase/auth";
-import { borderRadius } from '@mui/system';
+import auth from '@react-native-firebase/auth';
+import {borderRadius} from '@mui/system';
 
 function ProfileScreen({navigation}) {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   }
 
   useEffect(() => {
@@ -31,31 +39,45 @@ function ProfileScreen({navigation}) {
   // 1. profile
   // 2. Buttons
   // 3. buttons go to other screens
+  let name = '';
   return (
     <View style={styles.outerContainer}>
-      <View style={styles.container}>
-        <View style={styles.profileImage}>
-          <Image
-            source={{
-              uri: 'https://pe-images.s3.amazonaws.com/basics/cc/image-size-resolution/resize-images-for-print/image-cropped-8x10.jpg',
-            }}
-            style={styles.avatar}
-          />
-          <Text style={styles.name}>Your Name</Text>
-          <Text style={styles.bio}>Your Bio</Text>
+      <ImageBackground
+        source={require('./images/patternedImg.jpg')}
+        resizeMode="cover"
+        style={styles.image}>
+        <View style={styles.container}>
+          <View style={styles.profileImage}>
+            <Image
+              source={{
+                uri: 'https://pe-images.s3.amazonaws.com/basics/cc/image-size-resolution/resize-images-for-print/image-cropped-8x10.jpg',
+              }}
+              style={styles.avatar}
+            />
+             {user
+                ? <Text style={styles.name}>{user.displayName}</Text>
+             : 
+              <Text style={styles.name}>Nothing</Text>
+              }
+            <Text style={styles.bio}>Your Bio</Text>
+          </View>
+          <View style={styles.menuContainer}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
+              <Text style={styles.menuItemText}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => navigation.navigate('Settings')}>
+              <Text style={styles.menuItemText}>Settings</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItemLast}
+              onPress={() => auth().signOut()}>
+              <Text style={styles.menuItemText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem}>
-            <Text style={styles.menuItemText}>Edit Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
-            <Text style={styles.menuItemText}>Settings</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItemLast} onPress={() => auth().signOut()}>
-            <Text style={styles.menuItemText}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -63,13 +85,12 @@ function ProfileScreen({navigation}) {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    backgroundColor: '#000',
   },
   container: {
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'flex-end',
-    marginTop: 150, 
+    marginTop: 150,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     backgroundColor: '#111',
@@ -78,13 +99,11 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    margin: 20,
-    marginBottom: 100,
+    marginBottom: 20,
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
-    margin: 10,
     color: '#eee',
   },
   bio: {
@@ -97,7 +116,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     alignItems: 'center',
     width: '100%',
-    borderRadius: 20,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    marginTop: 100,
   },
   menuItem: {
     borderBottomColor: '#333',
@@ -115,7 +136,11 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     alignItems: 'center',
-  }
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 export default ProfileScreen;
