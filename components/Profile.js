@@ -13,6 +13,7 @@ import HomeScreen from './Home';
 import HistoryScreen from './History';
 import auth from '@react-native-firebase/auth';
 import {borderRadius} from '@mui/system';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function ProfileScreen({navigation}) {
   const [initializing, setInitializing] = useState(true);
@@ -63,17 +64,26 @@ function ProfileScreen({navigation}) {
           </View>
           <View style={styles.menuContainer}>
             <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
-              <Text style={styles.menuItemText}>Edit Profile</Text>
+              <View style={styles.menuItemContent}>
+                <MaterialCommunityIcons name="account-edit-outline" color="#fff" size={27} />
+                <Text style={styles.menuItemText}>Edit Profile</Text>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItem}
               onPress={() => navigation.navigate('Settings')}>
-              <Text style={styles.menuItemText}>Settings</Text>
+              <View style={styles.menuItemContent}>
+                <MaterialCommunityIcons style={{marginBottom: 25}} name="settings-helper" color="#fff" size={30} />
+                <Text style={styles.menuItemText}>Settings</Text>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.menuItemLast}
               onPress={() => auth().signOut()}>
-              <Text style={styles.menuItemText}>Logout</Text>
+              <View style={styles.menuItemContent}>
+                <MaterialCommunityIcons name="logout-variant" color="#fff" size={27} />
+                <Text style={styles.menuItemText}>Logout</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -127,6 +137,13 @@ const styles = StyleSheet.create({
   },
   menuItemLast: {
     width: '100%',
+  },
+  menuItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    margin: 10,
+    marginLeft: 30,
   },
   menuItemText: {
     fontSize: 18,
