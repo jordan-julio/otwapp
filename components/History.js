@@ -1,6 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-import zIndex from '@mui/material/styles/zIndex';
-import {borderRadius, fontFamily, margin} from '@mui/system';
 import React, {useState} from 'react';
 import {
   View,
