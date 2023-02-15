@@ -38,7 +38,7 @@ const Header = ({ title }) => {
 
 // Add carousels with tiles, and clickable tiles to respective pages
 function HomeScreen({navigation}) {
-  const usersCollection = firestore().collection('Users');
+  /**const usersCollection = firestore().collection('Users');
   firestore()
   .collection('Users')
   .get()
@@ -48,7 +48,7 @@ function HomeScreen({navigation}) {
     querySnapshot.forEach(documentSnapshot => {
       //console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
     });
-  });
+  });**/
   return (
     <View style={styles.container}>
       <Header title="OTW" />
